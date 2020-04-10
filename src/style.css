@@ -1,3 +1,327 @@
-body {
-    background: green;
+.wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.black-color {
+    background-color: #2e2e2e;
+    transition: 0.5s;
+}
+
+.categories-menu {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.categories-menu__element {
+    width: 300px;
+    justify-content: center;
+    padding: 25px 0;
+    max-width: 1440px;
+    margin: auto;
+}
+
+.card-img-top {
+    width: 100%;
+}
+
+.hamburger_active {
+    transform: rotate(90deg);
+}
+
+.hamburger {
+    z-index: 10;
+    transition: 0.5s;
+    border-radius: 5px;;
+    margin-top: 20px;
+    margin-left: 50px;
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+.hamburger span {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: black;
+    left: 0;
+    top: 14px;
+}
+
+.hamburger:before,
+.hamburger:after {
+    content: '';
+    position: absolute;
+    background-color: black;
+    width: 100%;
+    height: 3px;
+    left: 0;
+}
+
+.hamburger:before {
+    top: 0;
+}
+
+.hamburger:after {
+    bottom: 0;
+}
+.hamburger:hover {
+    cursor: pointer;
+}
+.navigation {
+    transform: translateX(-100%);
+    transition: 1s;
+    opacity: 0.99;
+    position: fixed;
+    z-index: 6;
+    width: 330px;
+    background-color: #2e2e2e;
+    height: 100vh;
+}
+
+.navigation__list {
+    padding-top: 20vh;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    margin: 0 auto;
+    height: 100vh;
+}
+
+.navigation__list_item:hover {
+    transition: 0.3s;
+    color: white;
+    font-size: 34px;
+}
+
+.navigation__list_item {
+    height: 35px;
+    vertical-align: middle;
+    padding-bottom: 30px;
+    text-decoration: none;
+    font-size: 28px;
+    color: white;
+    font-family: 'Gloria Hallelujah', cursive, sans-serif;
+}
+
+.card-body {
+    font-family: 'Gloria Hallelujah', cursive, sans-serif;
+    padding-bottom: 33px;
+    font-size: 32px;
+    text-align: center;
+}
+
+.functional-menu {
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card:hover {
+    box-shadow: 0 8px 15px 0 rgba(0, 0, 0, .3), 0 8px 30px 0 rgba(0, 0, 0, .3);
+    transition: 0.5s;
+}
+.card {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.green_box-shadow {
+    box-shadow: 0 8px 15px 0 rgba(10, 255, 3, 0.3), 0 8px 30px 0 rgba(10, 255, 3, 0.3);
+    transition: 0.5s;
+}
+
+.switcher {
+    width: 175px;
+}
+
+hr {
+    margin: 0;
+}
+
+.active {
+    transform: translateX(0%);
+}
+
+.green_color {
+    background-color: rgba(57,148,47, 0.9);
+    transition: 0.5s;
+}
+
+.reating-arkows *, .reating-arkows *:before, .reating-arkows *:after {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.reating-arkows input[type="checkbox"] {
+    opacity: 0;
+}
+
+.reating-arkows input[type="checkbox"][disabled] ~ label {
+    pointer-events: none;
+}
+
+.reating-arkows input[type="checkbox"][disabled] ~ label .trianglesusing {
+    opacity: 0.4;
+}
+
+.reating-arkows input[type="checkbox"]:checked ~ label .trianglesusing:before {
+    content: attr(data-unchecked);
+    left: 0;
+}
+
+.reating-arkows input[type="checkbox"]:checked ~ label .trianglesusing:after {
+    content: attr(data-checked);
+}
+
+.reating-arkows label {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.reating-arkows label .moresharpened {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding-left: 32px;
+}
+
+.reating-arkows label .trianglesusing {
+    position: relative;
+}
+
+.reating-arkows label .trianglesusing:before {
+    content: attr(data-checked);
+    position: absolute;
+    top: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.reating-arkows label .trianglesusing:after {
+    content: attr(data-unchecked);
+    position: absolute;
+    z-index: 5;
+    text-transform: uppercase;
+    text-align: center;
+    background: white;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.reating-arkows input[type="checkbox"][disabled] ~ label {
+    color: rgba(119, 119, 119, 0.5);
+}
+
+.reating-arkows input[type="checkbox"]:focus ~ label .trianglesusing, .reating-arkows input[type="checkbox"]:hover ~ label .trianglesusing {
+    background-color: #696464;
+}
+
+.reating-arkows input[type="checkbox"]:focus ~ label .trianglesusing:after, .reating-arkows input[type="checkbox"]:hover ~ label .trianglesusing:after {
+    color: #2E2E2E;
+}
+
+.reating-arkows input[type="checkbox"]:hover ~ label {
+    color: #615b5b;
+}
+
+.reating-arkows input[type="checkbox"]:checked ~ label:hover {
+    color: #38962d;
+}
+
+.reating-arkows input[type="checkbox"]:checked ~ label .trianglesusing {
+    background-color: #46963e;
+}
+
+.reating-arkows input[type="checkbox"]:checked ~ label .trianglesusing:after {
+    color: #388e2e;
+}
+
+.reating-arkows input[type="checkbox"]:checked:focus ~ label .trianglesusing, .reating-arkows input[type="checkbox"]:checked:hover ~ label .trianglesusing {
+    background-color: #45a53a;
+}
+
+.reating-arkows input[type="checkbox"]:checked:focus ~ label .trianglesusing:after, .reating-arkows input[type="checkbox"]:checked:hover ~ label .trianglesusing:after {
+    color: #39942f;
+}
+
+.reating-arkows label .moresharpened {
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.reating-arkows label .trianglesusing {
+    -webkit-transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
+    transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
+    background: #2E2E2E;
+}
+
+.reating-arkows label .trianglesusing:before {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.reating-arkows label .trianglesusing:after {
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0, 1, 0.5, 1);
+    transition: transform 0.3s cubic-bezier(0, 1, 0.5, 1);
+    color: #6b6565;
+}
+
+.reating-arkows input[type="checkbox"]:focus ~ label .trianglesusing:after, .reating-arkows input[type="checkbox"]:hover ~ label .trianglesusing:after {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.reating-arkows input[type="checkbox"]:checked ~ label .trianglesusing:after {
+    -webkit-transform: translate3d(65px, 0, 0);
+    transform: translate3d(65px, 0, 0);
+}
+
+.reating-arkows input[type="checkbox"]:checked:focus ~ label .trianglesusing:after, .reating-arkows input[type="checkbox"]:checked:hover ~ label .trianglesusing:after {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.reating-arkows label {
+    font-family: Roboto, sans-serif;
+    font-size: 30px;
+}
+
+.reating-arkows label .trianglesusing {
+    height: 36px;
+    -webkit-flex: 0 0 134px;
+    -ms-flex: 0 0 134px;
+    flex: 0 0 134px;
+    border-radius: 4px;
+}
+
+.reating-arkows label .trianglesusing:before {
+    left: 67px;
+    font-size: 14px;
+    line-height: 36px;
+    width: 67px;
+    padding: 0 12px;
+}
+
+.reating-arkows label .trianglesusing:after {
+    top: 2px;
+    left: 2px;
+    border-radius: 2px;
+    width: 65px;
+    line-height: 32px;
+    font-size: 14px;
+}
+
+.reating-arkows label .trianglesusing:hover:after {
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
 }
