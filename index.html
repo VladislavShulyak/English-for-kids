@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="src/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/css/mdb.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
@@ -13,14 +14,15 @@
     <header>
         <div class="navigation">
             <div class="navigation__list">
-                <a href="" class="navigation__list_item">Emotion</a>
-                <a href="" class="navigation__list_item">Clothes</a>
-                <a href="" class="navigation__list_item">Animals</a>
-                <a href="" class="navigation__list_item">Action</a>
-                <a href="" class="navigation__list_item">Animals Part 2</a>
-                <a href="" class="navigation__list_item">Animals Part 3</a>
-                <a href="" class="navigation__list_item">Actions Part 2</a>
-                <a href="" class="navigation__list_item">Actions Part 3</a>
+                <div href="" class="navigation__list_item" >Main Menu</div>
+                <div href="" class="navigation__list_item" data-id="Emotion">Emotion</div>
+                <div href="" class="navigation__list_item" data-id="Clothes">Clothes</div>
+                <div href="" class="navigation__list_item" data-id="Animals">Animals</div>
+                <div href="" class="navigation__list_item" data-id="Action">Action</div>
+                <div href="" class="navigation__list_item" data-id="Animals Part 2">Animals Part 2</div>
+                <div href="" class="navigation__list_item" data-id="Animals Part 3">Animals Part 3</div>
+                <div href="" class="navigation__list_item" data-id="Actions Part 2">Actions Part 2</div>
+                <div href="" class="navigation__list_item" data-id="Actions Part 3">Actions Part 3</div>
             </div>
         </div>
     </header>
@@ -41,14 +43,13 @@
         </div>
 
         <div class="categories-menu">
-            <div class="categories-menu__element">
-
+            <div class="categories-menu__element" >
                 <div class="card">
                     <div class="view overlay">
                         <img class="card-img-top" src="src/img/angry.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Emotion"></div>
                         </a>
                     </div>
                     <hr>
@@ -64,7 +65,7 @@
                         <img class="card-img-top" src="src/img/blouse.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Clothes"></div>
                         </a>
                     </div>
                     <hr>
@@ -81,7 +82,7 @@
                         <img class="card-img-top" src="src/img/bird.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Animals"></div>
                         </a>
                     </div>
                     <hr>
@@ -99,7 +100,7 @@
                         <img class="card-img-top" src="src/img/cry.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Action"></div>
                         </a>
                     </div>
                     <hr>
@@ -117,7 +118,7 @@
                         <img class="card-img-top" src="src/img/dolphin.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Animals Part 2"></div>
                         </a>
                     </div>
                     <hr>
@@ -135,7 +136,7 @@
                         <img class="card-img-top" src="src/img/dog.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Animals Part 3"></div>
                         </a>
                     </div>
                     <hr>
@@ -153,7 +154,7 @@
                         <img class="card-img-top" src="src/img/jump.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Actions Part 2"></div>
                         </a>
                     </div>
                     <hr>
@@ -171,7 +172,7 @@
                         <img class="card-img-top" src="src/img/open.jpg"
                              alt="Card image cap">
                         <a>
-                            <div class="mask rgba-white-slight"></div>
+                            <div class="mask rgba-white-slight" data-id="Actions Part 3"></div>
                         </a>
                     </div>
                     <hr>
@@ -184,5 +185,6 @@
             </div>
         </div>
     </div>
+    <script src="src/index.js"></script>
 </body>
 </html>
