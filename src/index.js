@@ -316,9 +316,16 @@ let errors = 0;
 function clearWindow() {
     const images = document.querySelectorAll('.active-card');
     const starsContainer = document.querySelectorAll('.rating-menu');
+    const finishFailContainer = document.querySelector('.finish_container__failure').children[0];
+    // need fix bug
+    finishFailContainer.removeChild(finishFailContainer.firstChild);
     gameButton.children[0].innerHTML = 'Start game';
+    gameButton.children[0].classList.remove('new-game-container__repeat-button');
+    if (gameButton.children[1]) {
+        gameButton.removeChild(gameButton.children[1]);
+    }
     images.forEach((element) => {
-       element.classList.remove('active-card');
+        element.classList.remove('active-card');
     });
     starsContainer.forEach((elem) => {
         while (elem.firstChild) {
@@ -326,6 +333,7 @@ function clearWindow() {
         }
     });
     onScreen = !onScreen;
+    errors = 0;
 }
 
 function getRandomInt() {
@@ -358,9 +366,11 @@ function goToMainMenu() {
         });
     }
 }
+
 document.addEventListener('click', (event) => {
     const targetElement = event.target;
     const indexOfCategory = categories.indexOf(`${targetElement.dataset.id}`);
+
     if (targetElement === hamburger || targetElement.parentNode === hamburger) {
         hamburger.classList.toggle('hamburger_active');
         document.querySelector('.navigation').classList.toggle('active');
@@ -377,6 +387,9 @@ document.addEventListener('click', (event) => {
         if (document.querySelector('.flip-card')) {
             gameButton.classList.toggle('active-game');
         }
+        if (!gameMode) {
+            clearWindow();
+        }
     }
     if ((targetElement.classList.contains('mask') || targetElement.classList.contains('navigation__list_item')) && targetElement.innerText !== 'Main Menu') {
         const elementOfCategory = document.querySelectorAll('.categories-menu__element');
@@ -388,35 +401,35 @@ document.addEventListener('click', (event) => {
         elementOfCategory.forEach((elem, index) => {
             elem.innerHTML
                 += `<div class="flip-card ">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <div class="view overlay">
-                                <audio data-sound="${[index]}" src="${cards[indexOfCategory][index].audioSrc}"></audio>
-                                <img class="card-img-top" data-active="no" data-name="card" data-id="${targetElement.dataset.id}" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
-                                    <a>          
-                                        <div class="rgba-white-slight"></div>
-                                    </a>
-                                </div>
-                                <div class="card-body black-color white-text rounded-bottom">
-                                    <a class="activator waves-effect mr-4"><i class="fas fa-share-alt white-text"></i></a>
-                                    <h4 class="card-title">${cards[indexOfCategory][index].word}</h4>
-                                    <img class="turn-card" src="./src/img/rotate.svg" data-id="swap" alt="swap">
-                                </div>
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="view overlay">
+                            <audio data-sound="${[index]}" src="${cards[indexOfCategory][index].audioSrc}"></audio>
+                            <img class="card-img-top" data-active="no" data-name="card" data-id="${targetElement.dataset.id}" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
+                                <a>          
+                                    <div class="rgba-white-slight"></div>
+                                </a>
                             </div>
-                            <div class="flip-card-back">
-                                <div class="view overlay">
-                                    <img class="card-img-top"  data-id="card" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
-                                    <a>          
-                                        <div class="rgba-white-slight"></div>
-                                    </a>
-                                </div>
-                                <div class="card-body black-color white-text rounded-bottom">
-                                    <a class="activator waves-effect mr-4"><i class="fas fa-share-alt white-text"></i></a>
-                                    <h4 class="card-title">${cards[indexOfCategory][index].translation}</h4>
-                                </div>
+                            <div class="card-body black-color white-text rounded-bottom">
+                                <a class="activator waves-effect mr-4"><i class="fas fa-share-alt white-text"></i></a>
+                                <h4 class="card-title">${cards[indexOfCategory][index].word}</h4>
+                                <img class="turn-card" src="./src/img/rotate.svg" data-id="swap" alt="swap">
                             </div>
                         </div>
-                   </div>`;
+                        <div class="flip-card-back">
+                            <div class="view overlay">
+                                <img class="card-img-top"  data-id="card" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
+                                <a>          
+                                    <div class="rgba-white-slight"></div>
+                                </a>
+                            </div>
+                            <div class="card-body black-color white-text rounded-bottom">
+                                <a class="activator waves-effect mr-4"><i class="fas fa-share-alt white-text"></i></a>
+                                <h4 class="card-title">${cards[indexOfCategory][index].translation}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    </div>`;
         });
         if (gameMode) {
             onScreen = true;
@@ -482,12 +495,17 @@ document.addEventListener('click', (event) => {
                     } else if (errors !== 0) {
                         document.querySelector('.failure-audio').play();
                         document.querySelector('.finish_container__failure').classList.add('finish_container__active');
+                        const textElement = document.createElement('span');
+                        textElement.innerHTML = errors;
+                        document.querySelector('.finish_container__failure').children[0].prepend(textElement);
                         setTimeout(() => {
                             document.querySelector('.finish_container__failure').classList.remove('finish_container__active');
                         }, 4700);
-                        clearWindow();
+                        setTimeout(() => {
+                            clearWindow();
+                        }, 4700);
                         goToMainMenu();
-                        } else {
+                    } else {
                         document.querySelector('.success-audio').play();
                         document.querySelector('.finish_container__success').classList.add('finish_container__active');
                         setTimeout(() => {
@@ -495,7 +513,7 @@ document.addEventListener('click', (event) => {
                         }, 4700);
                         clearWindow();
                         goToMainMenu();
-                        }
+                    }
                 } else {
                     document.querySelector('.error-audio').play();
                     errors += 1;
