@@ -306,23 +306,77 @@ const cards = [
 const hamburger = document.querySelector('.hamburger');
 const checkbox = document.getElementById('d');
 const mainMenu = document.querySelector('.categories-menu').innerHTML;
+const gameButton = document.querySelector('.new-game-container');
 let gameMode = false;
+let onScreen = true;
+let newArray;
+let array;
+let errors = 0;
+
+function clearWindow() {
+    const images = document.querySelectorAll('.active-card');
+    const starsContainer = document.querySelectorAll('.rating-menu');
+    gameButton.children[0].innerHTML = 'Start game';
+    images.forEach((element) => {
+       element.classList.remove('active-card');
+    });
+    starsContainer.forEach((elem) => {
+        while (elem.firstChild) {
+            elem.removeChild(elem.firstChild);
+        }
+    });
+    onScreen = !onScreen;
+}
+
+function getRandomInt() {
+    if (onScreen) {
+        array = [0, 1, 2, 3, 4, 5, 6, 7];
+        const rand = Math.floor(Math.random() * array.length);
+        const temp = array[rand];
+        array.splice(rand, 1);
+        newArray = array;
+        onScreen = !onScreen;
+        return temp;
+    }
+    array = newArray;
+    const rand = Math.floor(Math.random() * array.length);
+    const temp = array[rand];
+    array.splice(rand, 1);
+    newArray = array;
+    return temp;
+}
+
+
+function goToMainMenu() {
+    if (!gameMode) {
+        document.querySelector('.categories-menu').innerHTML = mainMenu;
+    } else {
+        gameButton.classList.remove('active-game');
+        document.querySelector('.categories-menu').innerHTML = mainMenu;
+        document.querySelectorAll('.card-body').forEach((item) => {
+            item.classList.toggle('green_color');
+        });
+    }
+}
 document.addEventListener('click', (event) => {
     const targetElement = event.target;
     const indexOfCategory = categories.indexOf(`${targetElement.dataset.id}`);
-    if (targetElement === hamburger) {
+    if (targetElement === hamburger || targetElement.parentNode === hamburger) {
         hamburger.classList.toggle('hamburger_active');
         document.querySelector('.navigation').classList.toggle('active');
     }
     if (targetElement === checkbox) {
         gameMode = !gameMode;
-        document.querySelectorAll('.card-body').forEach((item) => {
-            item.classList.toggle('green_color');
+        document.querySelectorAll('.card').forEach((item) => {
+            item.children.item(2).classList.toggle('green_color');
         });
         document.querySelector('.navigation').classList.toggle('green_color');
         document.querySelectorAll('.flip-card-front').forEach((element) => {
             element.children.item(1).classList.toggle('hidden');
         });
+        if (document.querySelector('.flip-card')) {
+            gameButton.classList.toggle('active-game');
+        }
     }
     if ((targetElement.classList.contains('mask') || targetElement.classList.contains('navigation__list_item')) && targetElement.innerText !== 'Main Menu') {
         const elementOfCategory = document.querySelectorAll('.categories-menu__element');
@@ -332,14 +386,13 @@ document.addEventListener('click', (event) => {
             }
         });
         elementOfCategory.forEach((elem, index) => {
-            if (!gameMode) {
-                elem.innerHTML
-                    += `<div class="flip-card ">
+            elem.innerHTML
+                += `<div class="flip-card ">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <div class="view overlay">
                                 <audio data-sound="${[index]}" src="${cards[indexOfCategory][index].audioSrc}"></audio>
-                                <img class="card-img-top" data-id="card" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
+                                <img class="card-img-top" data-active="no" data-name="card" data-id="${targetElement.dataset.id}" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
                                     <a>          
                                         <div class="rgba-white-slight"></div>
                                     </a>
@@ -352,7 +405,7 @@ document.addEventListener('click', (event) => {
                             </div>
                             <div class="flip-card-back">
                                 <div class="view overlay">
-                                    <img class="card-img-top" data-id="card" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
+                                    <img class="card-img-top"  data-id="card" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
                                     <a>          
                                         <div class="rgba-white-slight"></div>
                                     </a>
@@ -364,33 +417,20 @@ document.addEventListener('click', (event) => {
                             </div>
                         </div>
                    </div>`;
-            } else {
-            elem.innerHTML
-                += `<div class="flip-card ">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <div class="view overlay">
-                                <audio data-sound="${[index]}" src="${cards[indexOfCategory][index].audioSrc}"></audio>
-                                <img class="card-img-top" data-id="card" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
-                                    <a>          
-                                        <div class="rgba-white-slight"></div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-            }
         });
-    }
-    if (targetElement.innerText === 'Main Menu') {
-        if (!gameMode) {
-            document.querySelector('.categories-menu').innerHTML = mainMenu;
-        } else {
-            document.querySelector('.categories-menu').innerHTML = mainMenu;
-            document.querySelectorAll('.card-body').forEach((item) => {
-                item.classList.toggle('green_color');
+        if (gameMode) {
+            onScreen = true;
+            gameButton.children[0].classList.remove('new-game-container__repeat-button');
+            gameButton.children[0].innerHTML = 'Start game';
+            gameButton.classList.add('active-game');
+            document.querySelectorAll('.flip-card-front').forEach((element) => {
+                element.children.item(1).classList.add('hidden');
             });
         }
+        gameButton.children[0].setAttribute('data-id', `${targetElement.dataset.id}`);
+    }
+    if (targetElement.innerText === 'Main Menu') {
+        goToMainMenu();
     }
     if (targetElement.dataset.id === 'swap') {
         const parent = targetElement.parentNode.parentNode.parentNode;
@@ -399,8 +439,71 @@ document.addEventListener('click', (event) => {
             parent.classList.remove('test');
         });
     }
-    if (targetElement.dataset.id === 'card' && !gameMode) {
+    if (targetElement.dataset.name === 'card' && !gameMode) {
         const audio = targetElement.parentNode.firstChild.nextSibling;
         audio.play();
+    }
+    if (targetElement.innerText === 'Start game') {
+        const index = getRandomInt();
+        const audio = document.createElement('audio');
+        audio.setAttribute('src', `${cards[indexOfCategory][index].audioSrc}`);
+        if (targetElement.parentNode.children[1]) {
+            targetElement.parentNode.removeChild(targetElement.parentNode.children[1]);
+        }
+        targetElement.parentNode.appendChild(audio).play();
+        targetElement.innerText = 'Repeat';
+        targetElement.classList.add('new-game-container__repeat-button');
+    }
+    if (targetElement.innerText === 'Repeat') {
+        targetElement.parentNode.children[1].play();
+    }
+    if (gameMode && targetElement.dataset.name === 'card') {
+        const audioImage = targetElement.parentNode.children[0];
+        if (gameButton.children[1]) {
+            const audioGame = gameButton.children[1];
+            if (targetElement.dataset.active === 'no') {
+                if (audioGame.getAttribute('src') === audioImage.getAttribute('src')) {
+                    document.querySelector('.correct-audio').play();
+                    const link = document.createElement('span');
+                    link.innerHTML = '<img src="./src/img/star-win.svg" alt="star">';
+                    document.querySelector('.rating-menu').prepend(link);
+                    targetElement.dataset.active = 'yes';
+                    targetElement.classList.add('active-card');
+                    if (newArray.length !== 0) {
+                        setTimeout(() => {
+                            const index = getRandomInt();
+                            const audio = document.createElement('audio');
+                            audio.setAttribute('src', `${cards[indexOfCategory][index].audioSrc}`);
+                            if (gameButton.children[1]) {
+                                gameButton.removeChild(gameButton.children[1]);
+                            }
+                            gameButton.appendChild(audio).play();
+                        }, 1500);
+                    } else if (errors !== 0) {
+                        document.querySelector('.failure-audio').play();
+                        document.querySelector('.finish_container__failure').classList.add('finish_container__active');
+                        setTimeout(() => {
+                            document.querySelector('.finish_container__failure').classList.remove('finish_container__active');
+                        }, 4700);
+                        clearWindow();
+                        goToMainMenu();
+                        } else {
+                        document.querySelector('.success-audio').play();
+                        document.querySelector('.finish_container__success').classList.add('finish_container__active');
+                        setTimeout(() => {
+                            document.querySelector('.finish_container__success').classList.remove('finish_container__active');
+                        }, 4700);
+                        clearWindow();
+                        goToMainMenu();
+                        }
+                } else {
+                    document.querySelector('.error-audio').play();
+                    errors += 1;
+                    const link = document.createElement('span');
+                    link.innerHTML = '<img src="./src/img/star.svg" alt="star">';
+                    document.querySelector('.rating-menu').prepend(link);
+                }
+            }
+        }
     }
 });

@@ -7,7 +7,7 @@ body {
     background-color: #f2f2f2;
 }
 
-img:hover{
+img:hover {
     cursor: pointer;
 }
 
@@ -19,6 +19,7 @@ img:hover{
     transition: transform 0.8s;
     transform-style: preserve-3d;
 }
+
 .test {
     transform: rotateY(180deg);
 }
@@ -32,14 +33,12 @@ img:hover{
 }
 
 
-
 .black-color {
     background-color: #2e2e2e;
     transition: 0.5s;
 }
 
 .categories-menu {
-    margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -206,9 +205,106 @@ hr {
 
 .green_color {
     background-color: rgba(57, 148, 47, 0.9);
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
+.new-game-container {
+    display: none;
+    padding-top: 25px;
+    justify-content: center;
+}
+
+.new-game-container__button:hover {
+    font-size: 27px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 15px 0 rgba(0, 0, 0, .3), 0 8px 30px 0 rgba(0, 0, 0, .3);
+    transition: 0.1s;
+}
+
+.new-game-container__button {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    font-size: 24px;
+    font-family: 'Gloria Hallelujah', cursive;
+    color: #f2f2f2;
+    border-radius: 7px;
+    width: 30%;
+    height: 60px;
+    background-color: #45a53a;
+}
+
+.new-game-container__repeat-button {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    font-size: 24px;
+    font-family: 'Gloria Hallelujah', cursive;
+    color: #f2f2f2;
+    border-radius: 50%;
+    width: 100px;
+    height: 60px;
+    background-color: #45a53a;
+}
+
+.active-game {
+    display: flex;
+}
+
+.active-card {
+    opacity: 0.5;
+}
+
+.rating-menu {
+    overflow: hidden;
+    margin: 20px 30px 0 30px;
+}
+.rating-menu {
+    height: 50px;
+}
+.rating-menu img {
+    display: inline-block;
+    height: 50px;
+    width: 55px;
+}
+
+.finish_container__success {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0.9;
+    top: 0;
+    position: fixed;
+    z-index: 20;
+}
+
+.finish_container__failure {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0.9;
+    top: 0;
+    position: fixed;
+    z-index: 20;
+}
+
+.finish_container__image {
+    font-size: 8vw;
+    font-family: 'Gloria Hallelujah', cursive, sans-serif;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.finish_container__image img {
+    height: 30vw;
+}
+
+.finish_container__active {
+    display: block;
+}
 .reating-arkows *, .reating-arkows *:before, .reating-arkows *:after {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
