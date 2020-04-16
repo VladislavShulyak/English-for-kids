@@ -1,7 +1,107 @@
 // const { categories } = require('./cards.js');
 // const { cards } = require('./cards.js');
-const categories = ['Actions Part 2', 'Actions Part 3', 'Animals Part 2', 'Animals Part 3', 'Clothes', 'Emotion'];
+const categories = ['Animals', 'Action', 'Actions Part 2', 'Actions Part 3', 'Animals Part 2', 'Animals Part 3', 'Clothes', 'Emotion'];
 const cards = [
+    [
+        {
+            word: 'koala',
+            translation: 'коала',
+            image: './src/img/koala.jpg',
+            audioSrc: './src/audio/koala.mp3',
+        },
+        {
+            word: 'butterfly',
+            translation: 'бабочка',
+            image: './src/img/butterfly.jpg',
+            audioSrc: './src/audio/butterfly.mp3',
+        },
+        {
+            word: 'snake',
+            translation: 'змея',
+            image: './src/img/snake.jpg',
+            audioSrc: './src/audio/snake.mp3',
+        },
+        {
+            word: 'bear',
+            translation: 'медведь',
+            image: './src/img/bear.jpg',
+            audioSrc: './src/audio/bear.mp3',
+        },
+        {
+            word: 'cow',
+            translation: 'корова',
+            image: './src/img/cow.jpg',
+            audioSrc: './src/audio/cow.mp3',
+        },
+        {
+            word: 'elephant',
+            translation: 'слон',
+            image: './src/img/elephant.jpg',
+            audioSrc: './src/audio/elephant.mp3',
+        },
+        {
+            word: 'fox',
+            translation: 'лиса',
+            image: './src/img/fox.jpg',
+            audioSrc: './src/audio/fox.mp3',
+        },
+        {
+            word: 'shark',
+            translation: 'акула',
+            image: './src/img/shark.jpg',
+            audioSrc: './src/audio/shark.mp3',
+        },
+    ],
+    [
+        {
+            word: 'cook',
+            translation: 'готовить',
+            image: './src/img/cook.jpg',
+            audioSrc: './src/audio/cook.mp3',
+        },
+        {
+            word: 'drink',
+            translation: 'пить',
+            image: './src/img/drink.jpg',
+            audioSrc: './src/audio/drink.mp3',
+        },
+        {
+            word: 'eat',
+            translation: 'есть',
+            image: './src/img/eat.jpg',
+            audioSrc: './src/audio/eat.mp3',
+        },
+        {
+            word: 'cycling',
+            translation: 'ездить на велосипеде',
+            image: './src/img/cycling.jpg',
+            audioSrc: './src/audio/cycling.mp3',
+        },
+        {
+            word: 'rollerblade',
+            translation: 'кататься на роликах',
+            image: './src/img/rollerblade.jpg',
+            audioSrc: './src/audio/rollerblade.mp3',
+        },
+        {
+            word: 'ski',
+            translation: 'Кататься на лыжах',
+            image: './src/img/ski.jpg',
+            audioSrc: './src/audio/ski.mp3',
+        },
+        {
+            word: 'sleep',
+            translation: 'спать',
+            image: './src/img/sleep.jpeg',
+            audioSrc: './src/audio/sleep.mp3',
+        },
+        {
+            word: 'study',
+            translation: 'учиться',
+            image: './src/img/study.jpg',
+            audioSrc: './src/audio/study.mp3',
+        },
+    ],
     [
         {
             word: 'cry',
@@ -307,6 +407,8 @@ const hamburger = document.querySelector('.hamburger');
 const checkbox = document.getElementById('d');
 const mainMenu = document.querySelector('.categories-menu').innerHTML;
 const gameButton = document.querySelector('.new-game-container');
+const navigation = document.querySelector('.navigation');
+
 let gameMode = false;
 let onScreen = true;
 let newArray;
@@ -317,14 +419,16 @@ function clearWindow() {
     const images = document.querySelectorAll('.active-card');
     const starsContainer = document.querySelectorAll('.rating-menu');
     const finishFailContainer = document.querySelector('.finish_container__failure').children[0];
-    // need fix bug
-    finishFailContainer.removeChild(finishFailContainer.firstChild);
+    if (finishFailContainer.firstChild.innerHTML !== 'Mistakes') {
+        finishFailContainer.removeChild(finishFailContainer.firstChild);
+    }
     gameButton.children[0].innerHTML = 'Start game';
     gameButton.children[0].classList.remove('new-game-container__repeat-button');
     if (gameButton.children[1]) {
         gameButton.removeChild(gameButton.children[1]);
     }
     images.forEach((element) => {
+        element.dataset.active = 'no';
         element.classList.remove('active-card');
     });
     starsContainer.forEach((elem) => {
@@ -332,7 +436,7 @@ function clearWindow() {
             elem.removeChild(elem.firstChild);
         }
     });
-    onScreen = !onScreen;
+    onScreen = true;
     errors = 0;
 }
 
@@ -354,6 +458,9 @@ function getRandomInt() {
     return temp;
 }
 
+function hideNavigationBar() {
+    navigation.classList.remove('active');
+}
 
 function goToMainMenu() {
     if (!gameMode) {
@@ -373,14 +480,17 @@ document.addEventListener('click', (event) => {
 
     if (targetElement === hamburger || targetElement.parentNode === hamburger) {
         hamburger.classList.toggle('hamburger_active');
-        document.querySelector('.navigation').classList.toggle('active');
+        navigation.classList.toggle('active');
+    } else if (navigation.classList.contains('active')) {
+        hideNavigationBar();
+        hamburger.classList.toggle('hamburger_active');
     }
     if (targetElement === checkbox) {
         gameMode = !gameMode;
         document.querySelectorAll('.card').forEach((item) => {
             item.children.item(2).classList.toggle('green_color');
         });
-        document.querySelector('.navigation').classList.toggle('green_color');
+        navigation.classList.toggle('green_color');
         document.querySelectorAll('.flip-card-front').forEach((element) => {
             element.children.item(1).classList.toggle('hidden');
         });
@@ -390,6 +500,13 @@ document.addEventListener('click', (event) => {
         if (!gameMode) {
             clearWindow();
         }
+    }
+    if (targetElement.classList.contains('navigation__list_item')) {
+        document.querySelectorAll('.navigation__list_item').forEach((element) => {
+            element.classList.remove('active_link');
+        });
+        targetElement.classList.add('active_link');
+        clearWindow();
     }
     if ((targetElement.classList.contains('mask') || targetElement.classList.contains('navigation__list_item')) && targetElement.innerText !== 'Main Menu') {
         const elementOfCategory = document.querySelectorAll('.categories-menu__element');
@@ -456,7 +573,10 @@ document.addEventListener('click', (event) => {
         const audio = targetElement.parentNode.firstChild.nextSibling;
         audio.play();
     }
-    if (targetElement.innerText === 'Start game') {
+    if (targetElement.innerHTML === 'Repeat') {
+        targetElement.parentNode.children[1].play();
+    }
+    if (targetElement.innerHTML === 'Start game') {
         const index = getRandomInt();
         const audio = document.createElement('audio');
         audio.setAttribute('src', `${cards[indexOfCategory][index].audioSrc}`);
@@ -466,9 +586,6 @@ document.addEventListener('click', (event) => {
         targetElement.parentNode.appendChild(audio).play();
         targetElement.innerText = 'Repeat';
         targetElement.classList.add('new-game-container__repeat-button');
-    }
-    if (targetElement.innerText === 'Repeat') {
-        targetElement.parentNode.children[1].play();
     }
     if (gameMode && targetElement.dataset.name === 'card') {
         const audioImage = targetElement.parentNode.children[0];
@@ -491,7 +608,7 @@ document.addEventListener('click', (event) => {
                                 gameButton.removeChild(gameButton.children[1]);
                             }
                             gameButton.appendChild(audio).play();
-                        }, 1500);
+                        }, 100);
                     } else if (errors !== 0) {
                         document.querySelector('.failure-audio').play();
                         document.querySelector('.finish_container__failure').classList.add('finish_container__active');

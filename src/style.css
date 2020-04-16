@@ -305,6 +305,15 @@ hr {
 .finish_container__active {
     display: block;
 }
+
+.finish_container__image span {
+    margin-left: 20px;
+}
+
+.active_link {
+    transition: 0.5s;
+    color: #45a53a;
+}
 .reating-arkows *, .reating-arkows *:before, .reating-arkows *:after {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
