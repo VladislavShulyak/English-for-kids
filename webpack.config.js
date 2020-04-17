@@ -1,8 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, options) => {
     const isProduction = options.mode === 'production';
@@ -27,7 +28,7 @@ module.exports = (env, options) => {
                         },
                     },
                 }, {
-                    test: /\.(png|jpe?g|gif|svg)$/i,
+                    test: /\.(png|jpeg|gif|svg|mp3|jpg)$/i,
                     use: [
                         {
                             loader: 'file-loader',
@@ -43,6 +44,16 @@ module.exports = (env, options) => {
             ],
         },
         plugins: [
+            new CopyPlugin([
+                {
+                    from: path.join(__dirname, 'src/img'),
+                    to: path.join(__dirname, 'dist/src/img'),
+                },
+                {
+                    from: path.join(__dirname, 'src/audio'),
+                    to: path.join(__dirname, 'dist/src/audio'),
+                },
+            ]),
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: 'index.html',
