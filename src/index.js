@@ -408,12 +408,14 @@ const checkbox = document.getElementById('d');
 const mainMenu = document.querySelector('.categories-menu').innerHTML;
 const gameButton = document.querySelector('.new-game-container');
 const navigation = document.querySelector('.navigation');
+const elementOfCategory = document.querySelectorAll('.categories-menu__element');
 
 let gameMode = false;
 let onScreen = true;
 let newArray;
 let array;
 let errors = 0;
+let byElementGrowth = true;
 
 function clearWindow() {
     const images = document.querySelectorAll('.active-card');
@@ -462,6 +464,18 @@ function hideNavigationBar() {
     navigation.classList.remove('active');
 }
 
+function sortTable(index) {
+    const table = document.querySelector('table');
+    const sortedRows = Array.from(table.rows).slice(1);
+    if (byElementGrowth) {
+            sortedRows.sort((rowA, rowB) => (rowA.cells[index].innerHTML < rowB.cells[index].innerHTML ? 1 : -1));
+    } else {
+            sortedRows.sort((rowA, rowB) => (rowA.cells[index].innerHTML > rowB.cells[index].innerHTML ? 1 : -1));
+    }
+    table.tBodies[0].append(...sortedRows);
+    byElementGrowth = !byElementGrowth;
+}
+
 function goToMainMenu() {
     if (!gameMode) {
         document.querySelector('.categories-menu').innerHTML = mainMenu;
@@ -477,6 +491,25 @@ function goToMainMenu() {
 document.addEventListener('click', (event) => {
     const targetElement = event.target;
     const indexOfCategory = categories.indexOf(`${targetElement.dataset.id}`);
+
+    function createStatistics(errorType) {
+        const identifier = targetElement.parentNode.parentNode.children[1].children[1].innerHTML;
+        if (localStorage.getItem(`${errorType}_${identifier}`)) {
+            let temp = localStorage.getItem(`${errorType}_${identifier}`);
+            temp = +temp + 1;
+            localStorage.setItem(`${errorType}_${identifier}`, `${temp}`);
+        } else {
+            localStorage.setItem(`${errorType}_${identifier}`, '1');
+        }
+    }
+
+    function isTrue(expression) {
+        const isNumber = (value) => !Number.isNaN(value);
+        if (isNumber(expression) && expression !== null) {
+            return expression;
+        }
+        return '0';
+    }
 
     if (targetElement === hamburger || targetElement.parentNode === hamburger) {
         hamburger.classList.toggle('hamburger_active');
@@ -508,46 +541,51 @@ document.addEventListener('click', (event) => {
         targetElement.classList.add('active_link');
         clearWindow();
     }
-    if ((targetElement.classList.contains('mask') || targetElement.classList.contains('navigation__list_item')) && targetElement.innerText !== 'Main Menu') {
-        const elementOfCategory = document.querySelectorAll('.categories-menu__element');
-        elementOfCategory.forEach((elem) => {
-            while (elem.firstChild) {
-                elem.removeChild(elem.firstChild);
-            }
-        });
-        elementOfCategory.forEach((elem, index) => {
-            elem.innerHTML
-                += `<div class="flip-card ">
+    if ((targetElement.classList.contains('mask') || targetElement.classList.contains('navigation__list_item'))
+        && (targetElement.innerText !== 'Main Menu' && targetElement.innerText !== 'Statistics')) {
+        while (document.querySelector('.categories-menu').firstChild) {
+            document.querySelector('.categories-menu').removeChild(document.querySelector('.categories-menu').firstChild);
+        }
+        for (let i = 0; i < 8; i += 1) {
+            const newEl = document.createElement('div');
+            newEl.classList.add('categories-menu__element');
+            newEl.innerHTML = ` <div class="flip-card ">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <div class="view overlay">
-                            <audio data-sound="${[index]}" src="${cards[indexOfCategory][index].audioSrc}"></audio>
-                            <img class="card-img-top" data-active="no" data-name="card" data-id="${targetElement.dataset.id}" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
+                            <audio data-sound="${[i]}" src="${cards[indexOfCategory][i].audioSrc}"></audio>
+                            <img class="card-img-top" 
+                                 data-active="no" 
+                                 data-name="card" 
+                                 data-id="${targetElement.dataset.id}" 
+                                 src="${cards[indexOfCategory][i].image}" 
+                                 alt="Card image cap">
                                 <a>          
                                     <div class="rgba-white-slight"></div>
                                 </a>
                             </div>
                             <div class="card-body black-color white-text rounded-bottom">
                                 <a class="activator waves-effect mr-4"><i class="fas fa-share-alt white-text"></i></a>
-                                <h4 class="card-title">${cards[indexOfCategory][index].word}</h4>
+                                <h4 class="card-title">${cards[indexOfCategory][i].word}</h4>
                                 <img class="turn-card" src="./src/img/rotate.svg" data-id="swap" alt="swap">
                             </div>
                         </div>
                         <div class="flip-card-back">
                             <div class="view overlay">
-                                <img class="card-img-top"  data-id="card" src="${cards[indexOfCategory][index].image}" alt="Card image cap">
+                                <img class="card-img-top"  data-id="card" src="${cards[indexOfCategory][i].image}" alt="Card image cap">
                                 <a>          
                                     <div class="rgba-white-slight"></div>
                                 </a>
                             </div>
                             <div class="card-body black-color white-text rounded-bottom">
                                 <a class="activator waves-effect mr-4"><i class="fas fa-share-alt white-text"></i></a>
-                                <h4 class="card-title">${cards[indexOfCategory][index].translation}</h4>
+                                <h4 class="card-title">${cards[indexOfCategory][i].translation}</h4>
                             </div>
                         </div>
                     </div>
                     </div>`;
-        });
+            document.querySelector('.categories-menu').appendChild(newEl);
+        }
         if (gameMode) {
             onScreen = true;
             gameButton.children[0].classList.remove('new-game-container__repeat-button');
@@ -562,6 +600,66 @@ document.addEventListener('click', (event) => {
     if (targetElement.innerText === 'Main Menu') {
         goToMainMenu();
     }
+    if (targetElement.innerText === 'Statistics') {
+        elementOfCategory.forEach(() => {
+            while (document.querySelector('.categories-menu').firstChild) {
+                document.querySelector('.categories-menu').removeChild(document.querySelector('.categories-menu').firstChild);
+            }
+        });
+        document.querySelector('.categories-menu').innerHTML = '<table class="table table-hover mb-0" >\n'
+            + '  <thead class="grey lighten-2">\n'
+            + '    <tr>\n'
+            + '      <th data-id="Category">Category ↕</th>\n'
+            + '      <th data-id="Word">Word ↕</th>\n'
+            + '      <th data-id="Translation">Translation ↕</th>\n'
+            + '      <th data-id="Train">Train ↕</th>\n'
+            + '      <th data-id="Correct">Correct ↕</th>\n'
+            + '      <th data-id="Wrong">Wrong ↕</th>\n'
+            + '      <th data-id="Wrong %">Wrong % ↕</th>\n'
+            + '    </tr>\n'
+            + '  </thead>\n'
+            + '  <tbody class="table_body">\n'
+            + '  </tbody>\n'
+            + '</table>';
+        for (let i = 0; i < 8; i += 1) {
+            for (let j = 0; j < 8; j += 1) {
+                const tr = document.createElement('tr');
+                const errorValue = localStorage.getItem(`game-error_${cards[j][i].word}`);
+                const successValue = localStorage.getItem(`game-success_${cards[j][i].word}`);
+                let percentOfError;
+                if (+successValue + +errorValue !== 0) {
+                    percentOfError = (+errorValue * 100) / (+successValue + +errorValue);
+                } else {
+                    percentOfError = 0;
+                }
+                tr.innerHTML = `
+                <td>${categories[j]}</td>
+                <td>${cards[j][i].word}</td>
+                <td>${cards[j][i].translation}</td>
+                <td>${isTrue(localStorage.getItem(`train_${cards[j][i].word}`))}</td>
+                <td>${isTrue(localStorage.getItem(`game-success_${cards[j][i].word}`))}</td>
+                <td>${isTrue(localStorage.getItem(`game-error_${cards[j][i].word}`))}</td>
+                <td>${isTrue(`${Math.round(percentOfError)}`)}</td>`;
+                document.querySelector('.table_body').appendChild(tr);
+            }
+        }
+    }
+    if (targetElement.dataset.id === 'Category') {
+        sortTable(0);
+    } else if (targetElement.dataset.id === 'Word') {
+        sortTable(1);
+    } else if (targetElement.dataset.id === 'Translation') {
+        sortTable(2);
+    } else if (targetElement.dataset.id === 'Train') {
+        sortTable(3);
+    } else if (targetElement.dataset.id === 'Correct') {
+        sortTable(4);
+    } else if (targetElement.dataset.id === 'Wrong') {
+        sortTable(5);
+    } else if (targetElement.dataset.id === 'Wrong %') {
+        sortTable(6);
+    }
+
     if (targetElement.dataset.id === 'swap') {
         const parent = targetElement.parentNode.parentNode.parentNode;
         parent.classList.add('test');
@@ -570,8 +668,9 @@ document.addEventListener('click', (event) => {
         });
     }
     if (targetElement.dataset.name === 'card' && !gameMode) {
-        const audio = targetElement.parentNode.firstChild.nextSibling;
+        const audio = targetElement.parentNode.children[0];
         audio.play();
+        createStatistics('train');
     }
     if (targetElement.innerHTML === 'Repeat') {
         targetElement.parentNode.children[1].play();
@@ -599,6 +698,7 @@ document.addEventListener('click', (event) => {
                     document.querySelector('.rating-menu').prepend(link);
                     targetElement.dataset.active = 'yes';
                     targetElement.classList.add('active-card');
+                    createStatistics('game-success');
                     if (newArray.length !== 0) {
                         setTimeout(() => {
                             const index = getRandomInt();
@@ -637,6 +737,7 @@ document.addEventListener('click', (event) => {
                     const link = document.createElement('span');
                     link.innerHTML = '<img src="./src/img/star.svg" alt="star">';
                     document.querySelector('.rating-menu').prepend(link);
+                    createStatistics('game-error');
                 }
             }
         }

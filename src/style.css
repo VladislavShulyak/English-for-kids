@@ -73,19 +73,19 @@ img:hover {
 .hamburger span {
     position: absolute;
     width: 100%;
-    height: 3px;
-    background-color: black;
+    height: 4px;
+    background-color: #d32f2f96;
     left: 0;
-    top: 14px;
+    top: 13px;
 }
 
 .hamburger:before,
 .hamburger:after {
     content: '';
     position: absolute;
-    background-color: black;
+    background-color: #d32f2f96;
     width: 100%;
-    height: 3px;
+    height: 4px;
     left: 0;
 }
 
@@ -166,7 +166,7 @@ img:hover {
 }
 
 .functional-menu {
-    padding-top: 30px;
+    padding-top: 25px;
     display: flex;
     justify-content: space-between;
 }
@@ -258,9 +258,11 @@ hr {
     overflow: hidden;
     margin: 20px 30px 0 30px;
 }
+
 .rating-menu {
     height: 50px;
 }
+
 .rating-menu img {
     display: inline-block;
     height: 50px;
@@ -312,8 +314,24 @@ hr {
 
 .active_link {
     transition: 0.5s;
-    color: #45a53a;
+    color: #d32f2f96;
 }
+
+table {
+    width:100%;
+}
+
+table td, table thead {
+    font-family: Roboto, sans-serif;
+    text-align: center;
+}
+
+thead tr th:hover {
+    cursor: pointer;
+}
+
+
+
 .reating-arkows *, .reating-arkows *:before, .reating-arkows *:after {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -488,4 +506,24 @@ hr {
 
 .reating-arkows label .trianglesusing:hover:after {
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (max-width: 380px){
+    table td, table thead {
+        font-family: Roboto, sans-serif;
+    }
+    table td {
+        font-size: .6rem;
+        font-weight: 400;
+    }
+    table th {
+        font-size: .6rem;
+        font-weight: 400;
+    }
+    .navigation__list {
+        padding-top: 17vh;
+    }
+    .navigation__list_item {
+        padding-bottom: 2vh;
+    }
 }
