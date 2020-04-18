@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -54,7 +53,6 @@ module.exports = (env, options) => {
                     to: path.join(__dirname, 'dist/src/audio'),
                 },
             ]),
-            new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: 'index.html',
             }),
