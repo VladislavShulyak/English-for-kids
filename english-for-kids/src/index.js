@@ -24,17 +24,17 @@ function createDefaultView() {
     const images = document.querySelectorAll('.active-card');
     const starsContainer = document.querySelectorAll('.rating-menu');
     const finishFailContainer = document.querySelector('.finish_container__failure').children[0];
-    if (finishFailContainer.firstChild.innerHTML !== 'Mistakes') { // clear mistakes
+    if (finishFailContainer.firstChild.innerHTML !== 'Mistakes') {
         finishFailContainer.removeChild(finishFailContainer.firstChild);
     }
-    constants.gameButton.children[0].innerHTML = 'Start game'; // create default start button
-    constants.gameButton.children[0].classList.remove('new-game-container__repeat-button'); // create default styles of start button
-    if (gameAudio) { // remove audio
+    constants.gameButton.children[0].innerHTML = 'Start game';
+    constants.gameButton.children[0].classList.remove('new-game-container__repeat-button');
+    if (gameAudio) {
         constants.gameButton.removeChild(gameAudio);
     }
     images.forEach((element) => {
         element.dataset.active = 'no';
-        element.classList.remove('active-card');// remove active style cards after game mode
+        element.classList.remove('active-card');
     });
     starsContainer.forEach((elem) => {
         clearContainer(elem);
@@ -76,19 +76,11 @@ document.addEventListener('click', (event) => {
     if (targetElement === constants.checkbox) {
         gameMode = !gameMode;
         toggleCheckbox();
-        if (!gameMode) {
-            if (document.querySelectorAll('.categories-menu__element').length !== 0) {
-                createDefaultView();
-            }
-        }
     }
     if (targetElement.classList.contains('navigation__list_item') && (targetElement.innerText !== 'Statistics')) {
         toggleNavigationLink(targetElement);
         createDefaultView();
         constants.switcher.style.display = 'block';
-        if (document.querySelector('.flip-card')) {
-            constants.gameButton.classList.toggle('active-game');
-        }
     }
     if ((targetElement.classList.contains('mask') || targetElement.classList.contains('navigation__list_item'))
         && (targetElement.innerText !== 'Main Menu' && targetElement.innerText !== 'Statistics')) {
