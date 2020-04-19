@@ -7,9 +7,13 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = (env, options) => {
     const isProduction = options.mode === 'production';
     return {
+        devServer: {
+            contentBase: path.join(__dirname, 'dist'),
+            compress: true,
+            port: 9000,
+        },
         mode: isProduction ? 'production' : 'development',
         devtool: isProduction ? 'none' : 'source-map',
-        watch: !isProduction,
         entry: ['./src/index.js', './src/style.css'],
         output: {
             path: path.join(__dirname, '/dist'),
@@ -54,6 +58,7 @@ module.exports = (env, options) => {
                 },
             ]),
             new HtmlWebpackPlugin({
+                favicon: './src/img/favicon.ico',
                 template: 'index.html',
             }),
             new MiniCssExtractPlugin({

@@ -6,3 +6,4 @@ export const navigation = document.querySelector('.navigation');
 export const elementOfCategory = document.querySelectorAll('.categories-menu__element');
 export const finishFailureLayout = document.querySelector('.finish_container__failure');
 export const finishSuccessLayout = document.querySelector('.finish_container__success');
+export const switcher = document.querySelector('.switcher');

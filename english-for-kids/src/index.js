@@ -1,7 +1,7 @@
 import { cards, categories } from './Modules/Cards';
 import * as constants from './Modules/Constants';
 import { toggleHamburger, toggleNavigationLink } from './Modules/Navigation';
-import clearDomTree from './Modules/ClearDomTree';
+import { clearDomTree, clearContainer } from './Modules/ClearDomTree';
 import { createStatistics, createStatisticsLayout } from './Modules/Layouts/StatisticsLayout';
 import GenerateCards from './Modules/GenerateCards';
 import goToMainMenu from './Modules/Layouts/MainMenuLayout';
@@ -37,9 +37,7 @@ function createDefaultView() {
         element.classList.remove('active-card');// remove active style cards after game mode
     });
     starsContainer.forEach((elem) => {
-        while (elem.firstChild) {
-            elem.removeChild(elem.firstChild);// remove stars
-        }
+        clearContainer(elem);
     });
     onScreen = true;
     errors = 0;
@@ -79,12 +77,18 @@ document.addEventListener('click', (event) => {
         gameMode = !gameMode;
         toggleCheckbox();
         if (!gameMode) {
-            createDefaultView();
+            if (document.querySelectorAll('.categories-menu__element').length !== 0) {
+                createDefaultView();
+            }
         }
     }
-    if (targetElement.classList.contains('navigation__list_item')) {
+    if (targetElement.classList.contains('navigation__list_item') && (targetElement.innerText !== 'Statistics')) {
         toggleNavigationLink(targetElement);
         createDefaultView();
+        constants.switcher.style.display = 'block';
+        if (document.querySelector('.flip-card')) {
+            constants.gameButton.classList.toggle('active-game');
+        }
     }
     if ((targetElement.classList.contains('mask') || targetElement.classList.contains('navigation__list_item'))
         && (targetElement.innerText !== 'Main Menu' && targetElement.innerText !== 'Statistics')) {

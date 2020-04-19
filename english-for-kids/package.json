@@ -1,9 +1,10 @@
 {
   "name": "english-for-kids",
   "version": "1.0.0",
-  "description": "app for chldren who starts study english",
+  "description": "app for children who starts study english",
   "main": "src/index.js",
   "scripts": {
+    "start": "webpack-dev-server",
     "dev": "webpack --mode development",
     "prod": "webpack --mode production"
   },
@@ -21,7 +22,6 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "babel-loader": "^8.1.0",
-    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.1",
     "eslint": "^6.8.0",
@@ -33,7 +33,8 @@
     "mini-css-extract-plugin": "^0.9.0",
     "style-loader": "^1.1.3",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "mdbootstrap": "^4.15.0"
