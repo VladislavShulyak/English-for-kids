@@ -6,7 +6,7 @@
 3. Страница статистики 
 
 ### Demo
-https://englishforkids-xiasaller.netlify.app/
+https://xiasaller-english-for-kids.netlify.app
 
 ## Описание страниц
 1. Главная страница приложения
